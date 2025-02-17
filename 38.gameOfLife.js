@@ -1,6 +1,52 @@
-var gameOfLife = function(board) {
-      
-};
+function gameOfLife(board) {
+    const rows = board.length;
+    const cols = board[0].length;
+    const directions = [
+        [-1, -1], [-1, 0], [-1, 1],
+        [0, -1],         [0, 1],
+        [1, -1], [1, 0], [1, 1]
+    ];
+    
+    // Create a copy of the original board
+    const copyBoard = board.map(row => [...row]);
+    
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            let liveNeighbors = 0;
+            
+            // Count live neighbors
+            for (let [dr, dc] of directions) {
+                const newRow = r + dr;
+                const newCol = c + dc;
+                if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+                    liveNeighbors += copyBoard[newRow][newCol];
+                }
+            }
+            
+            // Apply the Game of Life rules
+            if (copyBoard[r][c] === 1) {
+                if (liveNeighbors < 2 || liveNeighbors > 3) {
+                    board[r][c] = 0; // Dies
+                }
+            } else {
+                if (liveNeighbors === 3) {
+                    board[r][c] = 1; // Becomes alive
+                }
+            }
+        }
+    }
+}
+
+// Example Usage
+let board = [
+    [0, 1, 0],
+    [0, 0, 1],
+    [1, 1, 1],
+    [0, 0, 0]
+];
+
+gameOfLife(board);
+console.log(board);
 
 // According to Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
 // The board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):
