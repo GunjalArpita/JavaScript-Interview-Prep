@@ -1,14 +1,12 @@
 var longestConsecutive = function(nums) {
+   // O(n) time.
     let set = new Set(nums);
     let max = 0;
-    for(let num of nums)
-        {
-        if(!set.has(num-1))
-            {
+    for(let num of set){
+        if(!set.has(num-1)){
             let currentNum = num;
             let currentStreak = 1;
-            while(set.has(currentNum+1))
-            {
+            while(set.has(currentNum+1)){
                 currentNum++;
                 currentStreak++;
             }
